@@ -3,7 +3,7 @@ package ru.javawebinar.topjava.repository.mock;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
+
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -39,7 +39,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        int mealId = meal.getId();
+        Integer mealId = meal.getId();
 
         if (meal.isNew()) {
             mealId = counter.incrementAndGet();
