@@ -7,11 +7,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsertOperations;
+import org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -29,11 +33,13 @@ public class JdbcUserRepositoryImpl implements UserRepository {
     public JdbcUserRepositoryImpl(DataSource dataSource, JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.insertUser = new SimpleJdbcInsert(dataSource)
                 .withTableName("users")
+                .usingColumns("name", "email", "password", "registered", "enabled", "calories_per_day")
                 .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
+
+        }
 
     @Override
     public User save(User user) {

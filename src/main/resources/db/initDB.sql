@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
   id               INT(10) NOT NULL AUTO_INCREMENT,
-  name             VARCHAR(100)                  NOT NULL,
-  email            VARCHAR(100)                 NOT NULL,
-  password         VARCHAR(100)                 NOT NULL,
+  name             VARCHAR(100) NOT NULL,
+  email            VARCHAR(100) NOT NULL,
+  password         VARCHAR(100) NOT NULL,
   registered       TIMESTAMP DEFAULT now() NOT NULL,
   enabled          BOOL DEFAULT TRUE       NOT NULL,
   calories_per_day INTEGER DEFAULT 2000    NOT NULL,
