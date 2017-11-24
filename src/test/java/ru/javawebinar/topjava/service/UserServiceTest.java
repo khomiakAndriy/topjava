@@ -9,10 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +37,34 @@ public class UserServiceTest {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private MealService mealService;
+
+    @Test
+    public void createMeal() throws Exception{
+        Meal meal = new Meal(null, LocalDateTime.now(), "dinner", 500);
+        System.out.println(meal);
+        Meal createdMeal = mealService.create(meal, 100000);
+        meal.setId(createdMeal.getId());
+    }
+
+    @Test
+    public void deleteMeal() throws Exception{
+        mealService.delete(1, 100001);
+    }
+
+    @Test
+    public void getMeal() throws Exception {
+        Meal meal = mealService.get(2, 100001);
+        System.out.println(meal);
+        }
+
+    @Test
+    public void getAllMeals() throws Exception {
+        List<Meal> meals = mealService.getAll(100001);
+        System.out.println(Arrays.asList(meals));
+    }
 
     @Test
     public void create() throws Exception {

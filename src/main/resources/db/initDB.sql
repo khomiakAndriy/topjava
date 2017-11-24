@@ -1,5 +1,7 @@
+DROP TABLE IF EXISTS meals;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE users
 (
@@ -21,5 +23,16 @@ CREATE TABLE user_roles
   user_id INTEGER(10) NOT NULL,
   role    VARCHAR(100),
   CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE meals
+(
+  user_id INTEGER(10),
+  meal_id INTEGER(10) AUTO_INCREMENT NOT NULL,
+  date_time       TIMESTAMP DEFAULT now() NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  calories    INTEGER(10),
+  UNIQUE (meal_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
