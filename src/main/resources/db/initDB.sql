@@ -29,10 +29,10 @@ CREATE TABLE user_roles
 CREATE TABLE meals
 (
   user_id INTEGER(10),
-  meal_id INTEGER(10) AUTO_INCREMENT NOT NULL,
+  id INTEGER(10) AUTO_INCREMENT NOT NULL,
   date_time       TIMESTAMP DEFAULT now() NOT NULL,
   description VARCHAR(255) NOT NULL,
   calories    INTEGER(10),
-  UNIQUE (meal_id),
+  PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

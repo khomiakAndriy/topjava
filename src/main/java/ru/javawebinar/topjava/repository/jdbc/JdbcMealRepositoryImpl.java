@@ -25,7 +25,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     private static final RowMapper<Meal> ROW_MAPPER = ((resultSet, i) ->  {
         Meal meal = new Meal();
-        meal.setId(resultSet.getInt("meal_id"));
+        meal.setId(resultSet.getInt("id"));
         meal.setDateTime(LocalDateTime.of(
                         resultSet.getDate("date_time").toLocalDate(),
                         resultSet.getTime("date_time").toLocalTime()
@@ -47,7 +47,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
         this.insertMeal = new SimpleJdbcInsert(dataSource)
                 .withTableName("meals")
                 .usingColumns("user_id", "date_time", "description", "calories")
-                .usingGeneratedKeyColumns("meal_id");
+                .usingGeneratedKeyColumns("id");
 
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
@@ -67,24 +67,24 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             meal.setId(newKey.intValue());
             map.addValue("mealId", newKey.intValue());
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET user_id=:id WHERE meal_id=:mealId", map);
+                    "UPDATE meals SET user_id=:id WHERE id=:mealId", map);
 
         } else {
             namedParameterJdbcTemplate.update(
-                    "UPDATE meals SET user_id=:id, meal_id=:mealId, date_time=:dateTime, " +
-                            "description=:description, calories=:calories WHERE meal_id=:mealId", map);
+                    "UPDATE meals SET user_id=:id, id=:mealId, date_time=:dateTime, " +
+                            "description=:description, calories=:calories WHERE id=:mealId", map);
         }
         return meal;
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return jdbcTemplate.update("DELETE FROM meals WHERE meal_id=? AND user_id=?", id, userId) != 0;
+        return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE meal_id=? AND user_id=?", ROW_MAPPER, id, userId);
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=? AND user_id=?", ROW_MAPPER, id, userId);
         return DataAccessUtils.singleResult(meals);
     }
 
