@@ -23,6 +23,9 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        if (!meal.isNew() && get(meal.getId(), userId) == null) {
+            return null;
+        }
         if (meal.isNew()) {
             meal.setUser(em.getReference(User.class, userId));
             em.persist(meal);
@@ -38,12 +41,14 @@ public class JpaMealRepositoryImpl implements MealRepository {
     public boolean delete(int id, int userId) {
         return em.createNamedQuery(Meal.DELETE)
                 .setParameter("id", id)
+                .setParameter("userId", userId)
                 .executeUpdate() != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return em.find(Meal.class, id);
+        Meal meal = em.find(Meal.class, id);
+        return meal != null && meal.getUser().getId() == userId ? meal : null;
     }
 
     @Override
@@ -53,8 +58,10 @@ public class JpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return getAll(userId).stream()
-                .filter(meal -> DateTimeUtil.isBetween(startDate, endDate, meal.getDateTime()))
-                .collect(Collectors.toList());
+        return em.createNamedQuery(Meal.GET_BETWEEN, Meal.class)
+                .setParameter("userId", userId)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
+                .getResultList();
     }
 }
