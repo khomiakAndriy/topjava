@@ -13,8 +13,6 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
