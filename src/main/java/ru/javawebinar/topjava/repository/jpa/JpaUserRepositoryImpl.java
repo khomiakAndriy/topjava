@@ -29,12 +29,12 @@ public class JpaUserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public User save(User user) {
-        if (user.isNew()) {
-            em.persist(user);
-            return user;
-        } else {
-            return em.merge(user);
-        }
+            if (user.isNew()) {
+                em.persist(user);
+                return user;
+            } else {
+                return em.merge(user);
+            }
     }
 
     @Override
