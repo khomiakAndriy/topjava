@@ -91,6 +91,8 @@
             </property>
         </bean>
 
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
         <tx:annotation-driven/>
 
         <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
