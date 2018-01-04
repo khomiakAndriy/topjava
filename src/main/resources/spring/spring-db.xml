@@ -104,6 +104,7 @@
             </property>
         </bean>
 
+        <!--fix problem with translation HibernateException to DataAccessException-->
         <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
         <tx:annotation-driven/>
